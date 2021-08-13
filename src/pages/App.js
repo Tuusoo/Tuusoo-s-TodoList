@@ -15,7 +15,6 @@ function App() {
       state: false,
     }
   ]);
-  // let bodyColor = "body todoBody";
   const changeList = (clickItem) => {//切换标签逻辑
     setListType(() => {
       let changed = [];
@@ -23,13 +22,6 @@ function App() {
         let item = i;
         if(clickItem === index){
           item.state = true;
-          // switch(index) {
-          //   case 0 : bodyColor = "body todoBody";break;
-          //   case 1 : bodyColor = "body doingBody";break;
-          //   case 2 : bodyColor = "body doneBody";break;
-          //   default : bodyColor = "body";break;
-          // }
-          // console.log(bodyColor)
         }else{
           item.state = false;
         }
@@ -38,21 +30,20 @@ function App() {
       return changed;
     })
   }
-  const bodyColor = () => {
-    listType.forEach((i,index) => {
-      if(i.state === true) {
-        switch(i.title){
-          case "todo": return ("body todoBody");
-          case "doing": return ("body doingBody");
-          case "done": return ("body doneBody");
-          default: return ("body");
-        }
+  let bodyColor = 'body';
+  listType.forEach((i,index) => {
+    if(i.state === true) {
+      switch(i.title){
+        case "todo": bodyColor = "body todoBody";break;
+        case "doing": bodyColor = "body doingBody";break;
+        case "done": bodyColor = "body doneBody";break;
+        default: bodyColor = "body";break;
       }
-    })
-  }
+    }
+  })
 
   return (
-    <section className="body">
+    <section className={bodyColor}>
       <section className="chooseList">
         <ChangeList changeList={changeList} listType={listType}></ChangeList>
       </section>

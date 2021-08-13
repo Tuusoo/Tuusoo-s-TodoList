@@ -1,8 +1,31 @@
 .body {
-  background-color: #5E72C0;
   height: 100vh;
   padding: 2px;
   display: flex;
+  
+  &.todoBody {
+    background-color: #5E72C0;
+
+    .itemList {
+      background-color: #E1E5F3;
+    }
+  }
+  
+  &.doingBody {
+    background-color: #D4F1EF;
+
+    .itemList {
+      background-color: #F0F6F6;
+    }
+  }
+
+  &.doneBody {
+    background-color: #FFE4E9;
+
+    .itemList {
+      background-color: #FAF2F4;
+    }
+  }
 
   .chooseList {
     width: 20%;
@@ -11,6 +34,5 @@
   .itemList {
     width: 80%;
     height: 100%;
-    background-color: #E1E5F3;
   }
 }
