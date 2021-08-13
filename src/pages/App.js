@@ -1,17 +1,12 @@
 import { useState } from 'react';
-import Block from '../components/block';
+import ChangeList from '../components/ChangeList';
 import '../style/App.less'
 
 function App() {
-  /* let listType = ["todo", "doing", "done"];
-  let listTitles = [];
-  listTitles = listType.map((i) => 
-    <Block type={i} key={i}></Block>
-  ) */
-  const [listType, setListType] = useState([
+  const [listType, setListType] = useState([//切换待办，正在，已办三种状态
     {
-      title: "todo",
-      state: true,
+      title: "todo",//title：标签名称
+      state: true,//state：是否在点击状态
     },{
       title: "doing",
       state: false,
@@ -20,15 +15,48 @@ function App() {
       state: false,
     }
   ]);
-  let listTitles = [];
-  listTitles = listType.map((i) => 
-    <Block type={i.title} isClick={i.state} key={i.title}></Block>
-  )
+  // let bodyColor = "body todoBody";
+  const changeList = (clickItem) => {//切换标签逻辑
+    setListType(() => {
+      let changed = [];
+      listType.forEach((i,index) => {
+        let item = i;
+        if(clickItem === index){
+          item.state = true;
+          // switch(index) {
+          //   case 0 : bodyColor = "body todoBody";break;
+          //   case 1 : bodyColor = "body doingBody";break;
+          //   case 2 : bodyColor = "body doneBody";break;
+          //   default : bodyColor = "body";break;
+          // }
+          // console.log(bodyColor)
+        }else{
+          item.state = false;
+        }
+        changed.push(item);
+      })
+      return changed;
+    })
+  }
+  const bodyColor = () => {
+    listType.forEach((i,index) => {
+      if(i.state === true) {
+        switch(i.title){
+          case "todo": return ("body todoBody");
+          case "doing": return ("body doingBody");
+          case "done": return ("body doneBody");
+          default: return ("body");
+        }
+      }
+    })
+  }
+
   return (
     <section className="body">
       <section className="chooseList">
-        {listTitles}
+        <ChangeList changeList={changeList} listType={listType}></ChangeList>
       </section>
+      <section className="itemList"></section>
     </section>
   )
 }
