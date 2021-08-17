@@ -43,7 +43,8 @@ function ItemList(props) {
 
   const inputing = (e) => setInputText(e.target.value);
 
-  const addIntoList = () => {
+  const addIntoList = (e) => {
+    // e.stopPropagation();
     setListArrays(() => {
       let setArray = listArrays;
       setArray.todo = [inputText,...setArray.todo];
@@ -52,9 +53,10 @@ function ItemList(props) {
   }
   return (
     <section>
-      <section style={props.tab === "todo"?{}:{display: "none"}} className="addItem" onMouseOver={addMouseOver} onMouseOut={addMouseOut}>
+      <section style={props.tab === "todo"?{}:{display: "none"}} className="addItem"/*  onMouseOver={addMouseOver} onMouseOut={addMouseOut} */>
         <input onInput={inputing}></input>
-        <img src={isAddIconCover?plusblack:plusGray} style={isAddCover?{}:{display: "none"}} onMouseOver={iconMouseOver} onMouseOut={iconMouseOut} onMouseDown={addIntoList} alt="plus"/>
+        {/* <img src={isAddIconCover?plusblack:plusGray} style={isAddCover?{}:{display: "none"}} onMouseOver={iconMouseOver} onMouseOut={iconMouseOut} onMouseDown={addIntoList} alt="plus"/> */}
+        <img src={plusblack} onMouseDown={addIntoList} alt="plus"/>
       </section>
       {itemsTemplate}
     </section>
