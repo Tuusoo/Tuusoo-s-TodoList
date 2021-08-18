@@ -13,11 +13,13 @@ function Item(props) {
   const mouseOut = () => setIsCover(false);
   const trashMouseOver = () => setIsTrashCover(true);
   const trashMouseOut = () => setIsTrashCover(false);
+  const deleteItem = () => {props.deleteFromTodo(props.index)}
+
   return (
     <section className="item" onMouseOver={mouseOver} onMouseOut={mouseOut}>
-      <img className="check" src={unselected} alt="check"/>
+      <img src={unselected} alt="check"/>
       <section className="text">{props.text}</section>
-      <img className="delete" src={isTrashCover?trashSelected:trash} alt="delete" style={isCover?{}:{display: "none"}} onMouseOver={trashMouseOver} onMouseOut={trashMouseOut}/>
+      <img src={isTrashCover?trashSelected:trash} alt="delete" style={isCover?{}:{display: "none"}} onMouseOver={trashMouseOver} onMouseOut={trashMouseOut} onClick={deleteItem}/>
     </section>
   )
 }

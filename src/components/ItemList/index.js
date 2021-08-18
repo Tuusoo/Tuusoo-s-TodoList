@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import Item from "../Item";
 
@@ -8,58 +8,61 @@ import plusGray from "../../images/plusGray.svg"
 import plusblack from "../../images/plusBlack.svg"
 
 function ItemList(props) {
-  const[listArrays, setListArrays] = useState({
-    todo: [],
-    doing: [],
-    done: []
-  });
-  const[isAddCover, setIsAddCover] = useState(false);
-  const[isAddIconCover, setIsAddIconCover] = useState(false);
-  const[inputText, setInputText] = useState("");
-  
-  let itemsArray = [];
-  switch(props.tab) {
-    case "todo":
-      itemsArray = listArrays.todo;
-      break;
-    case "doing":
-      itemsArray = listArrays.doing;
-      break;
-    case "done":
-      itemsArray = listArrays.done;
-      break;
-    default:
-      itemsArray = listArrays.todo;
-      break;
-  }
-  let itemsTemplate = <section></section>;
-  itemsTemplate = itemsArray.map((i, index) => <Item text={i} index={index} key={index}></Item>)
+  const [todoList, setTodoList] = useState([]);
+  const [doingList, setDoingList] = useState([]);
+  const [doneList, setDoneList] = useState([]);
+  const [isAddIconCover, setIsAddIconCover] = useState(false);
 
-  const addMouseOver = () => setIsAddCover(true);
-  const addMouseOut = () => setIsAddCover(false);
+  const todoAdd = useRef("todoAdd")
 
   const iconMouseOver = () => setIsAddIconCover(true);
   const iconMouseOut = () => setIsAddIconCover(false);
 
-  const inputing = (e) => setInputText(e.target.value);
+  const addIntoList = () => {
+    if(!todoAdd.current.value){return};
+    let inputText = todoAdd.current.value;
+    setTodoList(() => {
+      let setArray = todoList;
+      setArray = [inputText,...todoList];
+      return setArray;
+    });
+    todoAdd.current.value = '';
+  }
 
-  const addIntoList = (e) => {
-    // e.stopPropagation();
-    setListArrays(() => {
-      let setArray = listArrays;
-      setArray.todo = [inputText,...setArray.todo];
+  const deleteFromTodo = (i) => {
+    setTodoList(() => {
+      let setArray = todoList;
+      setArray = setArray.filter((item,index) => index != i);
       return setArray;
     });
   }
+  
+  let itemsArray = [];
+  switch(props.tab) {//渲染哪个list
+    case "todo":
+      itemsArray = todoList;
+      break;
+    case "doing":
+      itemsArray = doingList;
+      break;
+    case "done":
+      itemsArray = doneList;
+      break;
+    default:
+      itemsArray = todoList;
+      break;
+  }
+  let itemsTemplate = <section></section>;
+  itemsTemplate = itemsArray.map((i, index) => <Item text={i} index={index} key={index} deleteFromTodo={deleteFromTodo}></Item>)//渲染list
+  
   return (
-    <section>
-      <section style={props.tab === "todo"?{}:{display: "none"}} className="addItem"/*  onMouseOver={addMouseOver} onMouseOut={addMouseOut} */>
-        <input onInput={inputing}></input>
-        {/* <img src={isAddIconCover?plusblack:plusGray} style={isAddCover?{}:{display: "none"}} onMouseOver={iconMouseOver} onMouseOut={iconMouseOut} onMouseDown={addIntoList} alt="plus"/> */}
-        <img src={plusblack} onMouseDown={addIntoList} alt="plus"/>
+    <>
+      <section style={props.tab === "todo"?{}:{display: "none"}} className="addItem">
+        <img src={isAddIconCover?plusblack:plusGray} onMouseOver={iconMouseOver} onMouseOut={iconMouseOut} onClick={addIntoList} alt="plus"/>
+        <input ref={todoAdd}></input>
       </section>
       {itemsTemplate}
-    </section>
+    </>
   );
 }
 
