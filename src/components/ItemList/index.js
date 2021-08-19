@@ -32,7 +32,7 @@ function ItemList(props) {
   const deleteFromTodo = (i) => {
     setTodoList(() => {
       let setArray = todoList;
-      setArray = setArray.filter((item,index) => index != i);
+      setArray = setArray.filter((item,index) => index !== i);
       return setArray;
     });
   }

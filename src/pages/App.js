@@ -44,8 +44,10 @@ function App() {
     }
   })
 
+  const preventClientRightClick = (e) => e.preventDefault();
+
   return (
-    <section className={bodyColor}>
+    <section className={bodyColor} onContextMenu={preventClientRightClick}>
       <section className="chooseList">
         <ChangeList changeList={changeList} listType={listType}></ChangeList>
       </section>
