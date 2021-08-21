@@ -16,6 +16,9 @@ function App() {
       state: false,
     }
   ]);
+  let tab = 'todo';
+  let bodyColor = 'body';
+
   const changeList = (clickItem) => {//切换标签逻辑
     setListType(() => {
       let changed = [];
@@ -31,8 +34,7 @@ function App() {
       return changed;
     })
   }
-  let tab = 'todo';
-  let bodyColor = 'body';
+  
   listType.forEach((i) => {
     if(i.state === true) {
       switch(i.title){

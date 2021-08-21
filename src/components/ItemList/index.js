@@ -12,6 +12,7 @@ function ItemList(props) {
   const [doingList, setDoingList] = useState([]);
   const [doneList, setDoneList] = useState([]);
   const [isAddIconCover, setIsAddIconCover] = useState(false);
+  let itemsArray = [];
 
   const todoAdd = useRef("todoAdd")
 
@@ -37,7 +38,6 @@ function ItemList(props) {
     });
   }
   
-  let itemsArray = [];
   switch(props.tab) {//渲染哪个list
     case "todo":
       itemsArray = todoList;
