@@ -15,8 +15,15 @@ function rightClickMenu(props) {
   return(
     <section className="backGround" onClick={props.closeRightClickMenu} onContextMenu={props.closeRightClickMenu}>
       <section className="menu" style={locationXY}>
-        <section onMouseOver={mouseOver} onMouseOut={mouseOut}>添加到“正在处理”</section>
-        <section onClick={props.deleteItem} onMouseOver={mouseOver} onMouseOut={mouseOut}>删除</section>
+        {props.tab === "todo"
+        ? <>
+            <section onClick={props.addToDoing} onMouseOver={mouseOver} onMouseOut={mouseOut}>移动到“正在处理”</section>
+            <section onClick={props.deleteItem} onMouseOver={mouseOver} onMouseOut={mouseOut}>删除</section>
+          </>
+        : <>
+            <section onClick={props.backToTodo} onMouseOver={mouseOver} onMouseOut={mouseOut}>移动到“待办事项”</section>
+            <section onClick={props.addToDone} onMouseOver={mouseOver} onMouseOut={mouseOut}>移动到“已办事项”</section>
+          </>}
       </section>
     </section>
   )

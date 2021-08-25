@@ -13,13 +13,14 @@ function ItemList(props) {
   const [doneList, setDoneList] = useState([]);
   const [isAddIconCover, setIsAddIconCover] = useState(false);
   let itemsArray = [];
+  let itemsTemplate = <section></section>;
 
   const todoAdd = useRef("todoAdd")
 
   const iconMouseOver = () => setIsAddIconCover(true);
   const iconMouseOut = () => setIsAddIconCover(false);
 
-  const addIntoList = () => {
+  const addIntoList = () => {//添加至todo
     if(!todoAdd.current.value){return};
     let inputText = todoAdd.current.value;
     setTodoList(() => {
@@ -30,10 +31,45 @@ function ItemList(props) {
     todoAdd.current.value = '';
   }
 
-  const deleteFromTodo = (i) => {
+  const deleteFromTodo = (i) => {//从todo删除
     setTodoList(() => {
       let setArray = todoList;
       setArray = setArray.filter((item,index) => index !== i);
+      return setArray;
+    });
+  }
+
+  const addToDoing = (i, text) => {//从todo添加至doing
+    deleteFromTodo(i);
+    setDoingList(() => {
+      let setArray = doingList;
+      setArray = [text,...doingList];
+      return setArray;
+    });
+  }
+
+  const backToTodo = (i, text) => {//从doing回到todo
+    setDoingList(() => {
+      let setArray = doingList;
+      setArray = setArray.filter((item,index) => index !== i);
+      return setArray;
+    });
+    setTodoList(() => {
+      let setArray = todoList;
+      setArray = [text,...todoList];
+      return setArray;
+    });
+  }
+
+  const addToDone = (i, text) => {//从doing添加至done
+    setDoingList(() => {
+      let setArray = doingList;
+      setArray = setArray.filter((item,index) => index !== i);
+      return setArray;
+    });
+    setDoneList(() => {
+      let setArray = doneList;
+      setArray = [text,...doneList];
       return setArray;
     });
   }
@@ -52,8 +88,20 @@ function ItemList(props) {
       itemsArray = todoList;
       break;
   }
-  let itemsTemplate = <section></section>;
-  itemsTemplate = itemsArray.map((i, index) => <Item text={i} index={index} key={index} deleteFromTodo={deleteFromTodo}></Item>)//渲染list
+
+  itemsTemplate = itemsArray.map(//渲染list
+    (i, index) =>
+    <Item
+    tab={props.tab}
+    text={i}
+    index={index}
+    key={index}
+    deleteFromTodo={deleteFromTodo}
+    addToDoing={addToDoing}
+    backToTodo={backToTodo}
+    addToDone={addToDone}>
+    </Item>
+  )
   
   return (
     <>
