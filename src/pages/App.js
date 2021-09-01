@@ -42,7 +42,6 @@ function App() {
       case 1: dispatch(clickDoing());break;
       case 2: dispatch(clickDone());break;
     }
-    console.log(clickDoing)
   }
   
   listType.forEach((i) => {
