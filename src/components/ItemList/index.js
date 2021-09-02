@@ -1,6 +1,10 @@
 import { useRef, useState } from "react"
+import { useSelector, useDispatch } from "react-redux";
 
 import Item from "../Item";
+import { addTodo, removeTodo, selectTodoList } from "../../features/todoList/todoListSlice"
+import { addDoing, removeDoing, selectDoingList } from "../../features/doingList/doingListSlice"
+import { addDone, selectDoneList } from "../../features/doneList/doneListSlice"
 
 import "../../style/itemList.less"
 
@@ -8,9 +12,10 @@ import plusGray from "../../images/plusGray.svg"
 import plusblack from "../../images/plusBlack.svg"
 
 function ItemList(props) {
-  const [todoList, setTodoList] = useState([]);
-  const [doingList, setDoingList] = useState([]);
-  const [doneList, setDoneList] = useState([]);
+  const todoList = useSelector(selectTodoList);
+  const doingList = useSelector(selectDoingList);
+  const doneList = useSelector(selectDoneList);
+  const dispatch = useDispatch();
   const [isAddIconCover, setIsAddIconCover] = useState(false);
   let itemsArray = [];
   let itemsTemplate = <section></section>;
@@ -23,55 +28,27 @@ function ItemList(props) {
   const addIntoList = () => {//添加至todo
     if(!todoAdd.current.value){return};
     let inputText = todoAdd.current.value;
-    setTodoList(() => {
-      let setArray = todoList;
-      setArray = [inputText,...todoList];
-      return setArray;
-    });
+    dispatch(addTodo(inputText));
     todoAdd.current.value = '';
   }
 
   const deleteFromTodo = (i) => {//从todo删除
-    setTodoList(() => {
-      let setArray = todoList;
-      setArray = setArray.filter((item,index) => index !== i);
-      return setArray;
-    });
+    dispatch(removeTodo(i));
   }
 
   const addToDoing = (i, text) => {//从todo添加至doing
-    deleteFromTodo(i);
-    setDoingList(() => {
-      let setArray = doingList;
-      setArray = [text,...doingList];
-      return setArray;
-    });
+    dispatch(removeTodo(i));
+    dispatch(addDoing(text));
   }
 
   const backToTodo = (i, text) => {//从doing回到todo
-    setDoingList(() => {
-      let setArray = doingList;
-      setArray = setArray.filter((item,index) => index !== i);
-      return setArray;
-    });
-    setTodoList(() => {
-      let setArray = todoList;
-      setArray = [text,...todoList];
-      return setArray;
-    });
+    dispatch(removeDoing(i));
+    dispatch(addTodo(text));
   }
 
   const addToDone = (i, text) => {//从doing添加至done
-    setDoingList(() => {
-      let setArray = doingList;
-      setArray = setArray.filter((item,index) => index !== i);
-      return setArray;
-    });
-    setDoneList(() => {
-      let setArray = doneList;
-      setArray = [text,...doneList];
-      return setArray;
-    });
+    dispatch(removeDoing(i));
+    dispatch(addDone(text));
   }
   
   switch(props.tab) {//渲染哪个list

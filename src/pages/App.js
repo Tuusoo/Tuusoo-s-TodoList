@@ -1,46 +1,23 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import ChangeList from '../components/ChangeList';
 import ItemList from '../components/ItemList'
 import { clickTodo, clickDoing, clickDone, selectTab } from '../features/tabType/tabSlice'
+
 import '../style/App.less'
 
 function App() {
   const listType = useSelector(selectTab);
   const dispatch = useDispatch();
-  // const [listType, setListType] = useState([//切换待办，正在，已办三种状态
-  //   {
-  //     title: "todo",//title：标签名称
-  //     state: true,//state：是否在点击状态
-  //   },{
-  //     title: "doing",
-  //     state: false,
-  //   },{
-  //     title: "done",
-  //     state: false,
-  //   }
-  // ]);
   let tab = 'todo';
   let bodyColor = 'body';
 
   const changeList = (clickItem) => {//切换标签逻辑
-    // setListType(() => {
-    //   let changed = [];
-    //   listType.forEach((i,index) => {
-    //     let item = i;
-    //     if(clickItem === index){
-    //       item.state = true;
-    //     }else{
-    //       item.state = false;
-    //     }
-    //     changed.push(item);
-    //   })
-    //   return changed;
-    // })
     switch(clickItem){
       case 0: dispatch(clickTodo());break;
       case 1: dispatch(clickDoing());break;
       case 2: dispatch(clickDone());break;
+      default: break;
     }
   }
   

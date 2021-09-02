@@ -14,8 +14,8 @@ const initialState = [
 ];
 
 export const tabSlice = createSlice({
-  name: 'tabName',
-  initialState: initialState,
+  name: 'tab',
+  initialState,
   reducers: {
     clickTodo: (state) => {
       state[0].state = true;
